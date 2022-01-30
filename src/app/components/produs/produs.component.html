@@ -1,2 +1,18 @@
-<img src={{product.img}} alt="">
-{{product}}
+<div class="container">
+    <div class="image">
+        <img src={{product.img}} alt="">
+    </div>
+
+    <div class="details">
+        <div>
+            <h2>{{product.nume}}</h2>
+            <h4>{{product.descriere}}</h4>
+        </div>
+        
+        <div class="button" (click)="addToCart(product)">
+            <h2 class="price">{{product.pret}} RON</h2>
+            <button mat-raised-button color="primary">Adauga in cos</button>
+
+        </div>
+    </div>
+</div>

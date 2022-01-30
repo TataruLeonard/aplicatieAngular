@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
+import { DataService } from 'src/app/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-produs',
@@ -9,11 +11,16 @@ import { ApiService } from 'src/app/api.service';
 })
 export class ProdusComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, private api: ApiService) { }
-
+  constructor(
+    private data: DataService, private router: Router, private route: ActivatedRoute, private api: ApiService) { }
+  
+  cart: string = ""
+  
+  public subscription : Subscription = new Subscription();
   product: any = {img : ""}
   ngOnInit(): void {
     let prodId = this.route.snapshot.params['id']
+    this.subscription = this.data.curentCart.subscribe(cart => this.cart = cart)
 
     this.api.getProductById(prodId).subscribe((data) => {
       this.product =JSON.parse(data)[0]
@@ -24,5 +31,19 @@ export class ProdusComponent implements OnInit {
     })
   }
 
+  addToCart(product: Product){
+    let parse = JSON.parse(this.cart)
+    let arr = [...parse, product]
+    this.data.updateCart(JSON.stringify(arr))
+  }
 
+
+}
+
+interface Product {
+  _id:string
+  nume: string
+  pret: number
+  img: string
+  descriere: string
 }

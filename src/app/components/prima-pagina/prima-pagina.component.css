@@ -1,7 +1,7 @@
 .box{
     height: 200px;
     width: 180px;
-    background-color: chartreuse;
+    /* background-color: chartreuse; */
     position: relative;
 }
 
